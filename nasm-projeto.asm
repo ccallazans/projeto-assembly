@@ -112,12 +112,13 @@ questao_4:
     loop4:
         cld         ; Setar zf=0 para incrementar as posições de esi e edi
         lodsb       ; Load string byte -> mover cada caractere do esi para ax
-        cmp ax, " " ; Se ax é igual a " "
+        cmp al, " " ; Se ax é igual a " "
         je pass     ; Caso igual, pular para "pass"
         adicionar:
             stosb    ; Mover o caractere de ax para a posição em edi
             
         pass:
+        
         
         dec ecx     ; decrementar ecx
         cmp ecx, 0  ; Se ecx é igual a 0
