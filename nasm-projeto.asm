@@ -9,6 +9,7 @@ section .data
 
 section .bss
     buffer_string1: resb len_string1
+    buffer_string2: resb len_string1
 
 section .text
 global CMAIN
@@ -37,9 +38,6 @@ questao_1:
     NEWLINE
     ret
                     
-teste:
-    PRINT_DEC 2, ecx
-    PRINT_STRING 'x'
 
 questao_2:
     mov ecx, 41 ; Tamanho da string
@@ -77,7 +75,32 @@ questao_2:
 
 
 questao_3:
+    mov ecx, 41 ; Tamanho da string
+    mov esi, buffer_string1 
+    mov edi, buffer_string2
+    
+    loop3:
+        cld         ; Setar zf=0 para incrementar as posições de esi e edi
+        lodsb       ; Load string byte -> mover cada caractere do esi para ax
+        push ax     ; mover o caractere de ax para a pilha
+        
+        dec ecx     ; decrementar ecx
+        cmp ecx, 0  ; Se ecx é igual a 0
+        jne loop3   ; Caso contrário, pular para "loop3"
+        
+    loop3_2:
+        pop ax      ; Retirar o caractere do topo da pilha para ax
+        cld         ; Setar zf=0 para incrementar as posições de esi e edi
+        stosb       ; Mover o caractere de ax para a posição em edi
+        
+        inc ecx     ; Incrementar ecx
+        cmp ecx, 41 ; Se ecx é igual a 41
+        jne loop3_2 ; Caso contrário, pular para "loop3_2"
+           
+        
+    PRINT_STRING buffer_string2   
     ret
+
 
 questao_4:
     ret
