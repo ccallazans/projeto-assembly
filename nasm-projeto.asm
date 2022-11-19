@@ -10,6 +10,7 @@ section .data
 section .bss
     buffer_string1: resb len_string1
     buffer_string2: resb len_string1
+    buffer_string3: resb len_string1
 
 section .text
 global CMAIN
@@ -99,11 +100,33 @@ questao_3:
            
         
     PRINT_STRING buffer_string2   
+    NEWLINE
     ret
 
 
 questao_4:
+    mov ecx, 41 ; Tamanho da string
+    mov esi, buffer_string1 
+    mov edi, buffer_string3
+    
+    loop4:
+        cld         ; Setar zf=0 para incrementar as posições de esi e edi
+        lodsb       ; Load string byte -> mover cada caractere do esi para ax
+        cmp ax, " " ; Se ax é igual a " "
+        je pass     ; Caso igual, pular para "pass"
+        adicionar:
+            stosb    ; Mover o caractere de ax para a posição em edi
+            
+        pass:
+        
+        dec ecx     ; decrementar ecx
+        cmp ecx, 0  ; Se ecx é igual a 0
+        jne loop4   ; Caso contrário, pular para "loop4"
+        
+    PRINT_STRING buffer_string3  
+    NEWLINE 
     ret
+        
 
 questao_5:
     ret
