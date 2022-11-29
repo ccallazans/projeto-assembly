@@ -181,6 +181,34 @@ questao_5:
     ret
 
 questao_6:
+    mov ecx, 41 ; Tamanho da string
+    mov esi, buffer_string1 
+      
+    loop6:  
+        cmp ecx, 0 ; Verificar se o contador é igual a 0
+        je fim6 ; Caso verdadeiro, pular para "fim6"
+    
+        cld         ; Setar zf=0 para incrementar as posições de esi e edi
+        lodsb       ; Load string byte -> mover cada caractere do esi para al
+        cmp al, " " ; Comparar al com espaço
+        je vazio6 ; Caso verdadeiro, pular para "vazio6"
+
+        PRINT_CHAR al 
+        PRINT_STRING " -> "
+        sub al, 96 ; Na tabela ascii as letras estão deslocadas em 96 posições em relação a posição no alfabeto, ex: ASCII a=97, ALF a=1, por isso subtraimos 96
+        PRINT_DEC 2, al
+        NEWLINE 
+
+        dec ecx ; decrementar ecx
+        jmp loop6   ; pular para loop6
+        
+    vazio6:
+        dec ecx ; decrementar ecx
+        jmp loop6 ; pular para loop6
+        
+    fim6:
+            
+
     ret
 
 questao_7:
