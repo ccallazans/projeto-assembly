@@ -1,3 +1,4 @@
+
 %include "io.inc"
 
 section .data
@@ -11,6 +12,7 @@ section .bss
     buffer_string1: resb len_string1
     buffer_string2: resb len_string1
     buffer_string3: resb len_string1
+    buffer_string4: resb len_string1
 
 section .text
 global CMAIN
@@ -130,6 +132,52 @@ questao_4:
         
 
 questao_5:
+    mov ebx, buffer_string1 ;ebx é um ponteiro para string1
+    mov edx, 2
+   
+    loop5:
+        mov al,[ebx]        ;movendo um caractere para al
+        cmp al,0            ;se for o caractere null
+        je done             ;pular para done
+       
+        cmp al," "          ;se al é um espaço
+        je space            ; se é igual pula para space
+    
+        cmp edx,0           ;se edx é 0
+        jg atualiza5       ;se não é zero pula para atualiza5
+        jle pass5            ;se é 0 pula para pass5
+        
+    atualiza5:
+        add al,'A'-'a'      ;converter para maiúsculas
+        PRINT_CHAR al       ;Imprime a letra
+        inc ebx             ;Incrementa o ebx
+        dec edx             ;decrementa o edx
+  
+        cmp al,0            ;se chegou ao fim da string1
+        jne loop5           ;se não chegou ao fim pula para loop5
+ 
+    pass5:
+       PRINT_CHAR al        ;imprime as letras minusculas
+       dec edx
+       inc ebx              ; incrementa ebx
+       
+       cmp edx, -3            ;se eax é 0   
+       jne loop5            ;se é maior pela para pass5
+       je zera              ;se é zero pela para zera
+        
+    zera:
+        ;mov eax,3          
+        mov edx,2           ;mov 2 para edx para recomeçar 
+        jmp loop5           ;voltar para loop5
+             
+    space:
+        PRINT_CHAR al      ;imprimir a letra em al
+        inc ebx            ;pula para a proxima posição da string
+        cmp al,0           ; se al é 0
+        jne loop5          ; se não é zero volta para o loop5
+    done:
+        NEWLINE            ;nova linha, fim da execução
+
     ret
 
 questao_6:

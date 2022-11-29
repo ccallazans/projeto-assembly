@@ -11,11 +11,11 @@ O que é
 ### TODO
 Questões 
 
-- [ ] Questão 1
-- [ ] Questão 2
-- [ ] Questão 3
-- [ ] Questão 4
-- [ ] Questão 5
+- [x] Questão 1
+- [x] Questão 2
+- [x] Questão 3
+- [x] Questão 4
+- [x] Questão 5
 - [ ] Questão 6
 - [ ] Questão 7
 
