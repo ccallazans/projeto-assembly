@@ -63,9 +63,9 @@ questao_2:
             inc bh          ; Incrementar valor encontrado
             
         atualizar:    
-            dec ecx     ; Decrementar eax, já que estamos lendo do final da string até o começo
-            cmp ecx, 0  ; Se ecx é igual a 0
-            jne loop2   ; Caso contrário, pular para "loop2"
+            dec ecx         ; Decrementar eax, já que estamos lendo do final da string até o começo
+            cmp ecx, 0      ; Se ecx é igual a 0
+            jne loop2       ; Caso contrário, pular para "loop2"
         
     PRINT_STRING msg_m
     PRINT_DEC 2, bl
@@ -108,7 +108,7 @@ questao_3:
 
 
 questao_4:
-    mov ecx, 41 ; Tamanho da string
+    mov ecx, 41     ; Tamanho da string
     mov esi, buffer_string1 
     mov edi, buffer_string3
     
@@ -118,7 +118,7 @@ questao_4:
         cmp al, " " ; Se ax é igual a " "
         je pass     ; Caso igual, pular para "pass"
         adicionar:
-            stosb    ; Mover o caractere de ax para a posição em edi
+            stosb   ; Mover o caractere de ax para a posição em edi
             
         pass:
         
@@ -138,33 +138,33 @@ questao_5:
    
     loop5:
         mov al,[ebx]        ;movendo um caractere para al
-        cmp al,0            ;se for o caractere null
+        cmp al,0            ;se al é zero
         je done             ;pular para done
        
         cmp al," "          ;se al é um espaço
-        je space            ; se é igual pula para space
+        je space            ;se é igual pular para space
     
         cmp edx,0           ;se edx é 0
-        jg atualiza5       ;se não é zero pula para atualiza5
-        jle pass5            ;se é 0 pula para pass5
+        jg atualiza5        ;se é maior pular para atualiza5
+        jle pass5           ;se é menor ou igual pular para pass5
         
     atualiza5:
         add al,'A'-'a'      ;converter para maiúsculas
         PRINT_CHAR al       ;Imprime a letra
-        inc ebx             ;Incrementa o ebx
-        dec edx             ;decrementa o edx
+        inc ebx             ;Incrementar ebx
+        dec edx             ;decrementar o edx
   
         cmp al,0            ;se chegou ao fim da string1
-        jne loop5           ;se não chegou ao fim pula para loop5
+        jne loop5           ;se não chegou ao fim pular para loop5
  
     pass5:
        PRINT_CHAR al        ;imprime as letras minusculas
-       dec edx
+       dec edx              ;decrementa edx
        inc ebx              ; incrementa ebx
        
-       cmp edx, -3            ;se eax é 0   
-       jne loop5            ;se é maior pela para pass5
-       je zera              ;se é zero pela para zera
+       cmp edx, -3          ;se eax é -3   
+       jne loop5            ;se não é igual pular para loop5
+       je zera              ;se é igual pular para zera
         
     zera:
         ;mov eax,3          
@@ -175,95 +175,97 @@ questao_5:
         PRINT_CHAR al      ;imprimir a letra em al
         inc ebx            ;pula para a proxima posição da string
         cmp al,0           ; se al é 0
-        jne loop5          ; se não é zero volta para o loop5
+        jne loop5          ; se não é zero voltar para o loop5
     done:
         NEWLINE            ;nova linha, fim da execução
 
     ret
 
 questao_6:
-    mov ecx, 41 ; Tamanho da string
+    mov ecx, 41                ; Tamanho da string
     mov esi, buffer_string1 
     mov ebx,0
       
     loop6:  
-        cmp ecx, 0 ; Verificar se o contador é igual a 0
-        je fim6 ; Caso verdadeiro, pular para "fim6"
+        cmp ecx, 0             ; Verificar se o contador é igual a 0
+        je fim6                ; Caso verdadeiro, pular para "fim6"
     
-        cld         ; Setar zf=0 para incrementar as posições de esi e edi
-        lodsb       ; Load string byte -> mover cada caractere do esi para al
-        cmp al, " " ; Comparar al com espaço
-        je vazio6 ; Caso verdadeiro, pular para "vazio6"
+        cld                    ; Setar zf=0 para incrementar as posições de esi e edi
+        lodsb                  ; Load string byte -> mover cada caractere do esi para al
+        cmp al, " "            ; Comparar al com espaço
+        je vazio6              ; Caso verdadeiro, pular para "vazio6"
 
         PRINT_CHAR al 
         PRINT_STRING " -> "
         sub al, 96 ; Na tabela ascii as letras estão deslocadas em 96 posições em relação a posição no alfabeto, ex: ASCII a=97, ALF a=1, por isso subtraimos 96
         PRINT_DEC 2, al
         
-        mov [vetor+ebx],al
-        ADD ebx,2
+        mov [vetor+ebx],al     ;colocando os numeros no vetor
+        ADD ebx,2              ;incrementando ebx
         
         NEWLINE 
 
-        dec ecx ; decrementar ecx
-        jmp loop6   ; pular para loop6
+        dec ecx                ; decrementar ecx
+        jmp loop6              ; pular para loop6
         
     vazio6:
-        dec ecx ; decrementar ecx
-        jmp loop6 ; pular para loop6
+        dec ecx                ; decrementar ecx
+        jmp loop6              ; pular para loop6
         
     fim6:
     ret
 
 
 questao_7:
-    mov edx,70                       ;tamanho do vetor
+    mov edx,70                    ;tamanho do loop
 
     loop7_1:
-        mov ecx, 70              ;movendo o tamanho do vetor
-        lea esi, vetor           ;movendo o vetor
+    
+        mov ecx, 70               ;tamanho do loop
+        mov esi, vetor            ;movendo o endereço do vetor 
 
         loop7_2:
                 mov al, [esi]     ;movendo numero para al
-                MOV bl,[esi+2]    ;movendo numero para bl  
+                MOV bl,[esi+2]    ;movendo numero seguinte para bl  
                 cmp al, bl        ;comparando al e bl
                 jg atualiza7      ;se maior pula para atualiza7      
                 xchg al, [esi+2]  ;troncando os valores de al e [esi+2]
-                mov [esi], al     ;movendo al para [esi] 
+                mov [esi], al     ;colocando al em [esi] 
         atualiza7:
-                add esi,2
-                sub ecx,2
+                add esi,2         ;incrementando esi
+                sub ecx,2         ;decrementando ecx
                 cmp ecx,0         ;se ecx é zero
                 jg loop7_2        ;se maior pular para  loop7_2
+                
 
-    sub edx,2
-    jnz loop7_1                       ;voltar para o loop7_1
+    sub edx,2        ;decrementar edx
+    jnz loop7_1      ;voltar para o loop7_1
   
   
-  mov edx,72      ;tamanho do loop
-  mov eax,vetor   ;movendo o vetor para eax
+  mov edx,72         ;tamanho do loop
+  mov eax,vetor      ;movendo o vetor para eax
   mov cx,0 
   mov bx,0 
         
   imprimir:
     
-    mov cx,[eax]      ;movendo um numero para cx
-    add bx,cx         ;somando
-    PRINT_DEC 2,cx    ;imprimindo 
+    mov cx,[eax]     ;movendo um numero para cx
+    add bx,cx        ;somando
+    PRINT_DEC 2,cx   ;imprimindo 
     NEWLINE
     
-    add eax,2
-    sub edx,2
+    add eax,2        ;incrementando eax
+    sub edx,2        ;decrementando edx
     
-    cmp edx,0         ;se edx é zero
-    je media          ; se é zero pular para media
-    jg imprimir       ;se maior continuar em imprimir
+    cmp edx,0        ;se edx é zero
+    je media         ;se é zero pular para media
+    jg imprimir      ;se maior continuar em imprimir
       
   media:
   
-   mov ax,bx        ;movendo o valor de bx para ax para dividir
-   mov bh,36        ;tamanho do vetor
-   div bh           ;dividindo o valor de ax por bh
+   mov ax,bx         ;movendo o valor de bx para ax para dividir
+   mov bh,36         ;tamanho do vetor
+   div bh            ;dividindo o valor em ax pelo valor em bh
    NEWLINE
-   PRINT_DEC 2,al   ;imprimindo a media
+   PRINT_DEC 2,al    ;imprimindo a media
    ret
