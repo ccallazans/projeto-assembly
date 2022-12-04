@@ -13,6 +13,7 @@ section .bss
     buffer_string2: resb len_string1
     buffer_string3: resb len_string1
     buffer_string4: resb len_string1
+    vetor: resb 36
 
 section .text
 global CMAIN
@@ -183,6 +184,7 @@ questao_5:
 questao_6:
     mov ecx, 41 ; Tamanho da string
     mov esi, buffer_string1 
+    mov ebx,0
       
     loop6:  
         cmp ecx, 0 ; Verificar se o contador é igual a 0
@@ -197,6 +199,10 @@ questao_6:
         PRINT_STRING " -> "
         sub al, 96 ; Na tabela ascii as letras estão deslocadas em 96 posições em relação a posição no alfabeto, ex: ASCII a=97, ALF a=1, por isso subtraimos 96
         PRINT_DEC 2, al
+        
+        mov [vetor+ebx],al
+        ADD ebx,2
+        
         NEWLINE 
 
         dec ecx ; decrementar ecx
@@ -207,9 +213,57 @@ questao_6:
         jmp loop6 ; pular para loop6
         
     fim6:
-            
-
     ret
+
 
 questao_7:
-    ret
+    mov edx,70                       ;tamanho do vetor
+
+    loop7_1:
+        mov ecx, 70              ;movendo o tamanho do vetor
+        lea esi, vetor           ;movendo o vetor
+
+        loop7_2:
+                mov al, [esi]     ;movendo numero para al
+                MOV bl,[esi+2]    ;movendo numero para bl  
+                cmp al, bl        ;comparando al e bl
+                jg atualiza7      ;se maior pula para atualiza7      
+                xchg al, [esi+2]  ;troncando os valores de al e [esi+2]
+                mov [esi], al     ;movendo al para [esi] 
+        atualiza7:
+                add esi,2
+                sub ecx,2
+                cmp ecx,0         ;se ecx é zero
+                jg loop7_2        ;se maior pular para  loop7_2
+
+    sub edx,2
+    jnz loop7_1                       ;voltar para o loop7_1
+  
+  
+  mov edx,72      ;tamanho do loop
+  mov eax,vetor   ;movendo o vetor para eax
+  mov cx,0 
+  mov bx,0 
+        
+  imprimir:
+    
+    mov cx,[eax]      ;movendo um numero para cx
+    add bx,cx         ;somando
+    PRINT_DEC 2,cx    ;imprimindo 
+    NEWLINE
+    
+    add eax,2
+    sub edx,2
+    
+    cmp edx,0         ;se edx é zero
+    je media          ; se é zero pular para media
+    jg imprimir       ;se maior continuar em imprimir
+      
+  media:
+  
+   mov ax,bx        ;movendo o valor de bx para ax para dividir
+   mov bh,36        ;tamanho do vetor
+   div bh           ;dividindo o valor de ax por bh
+   NEWLINE
+   PRINT_DEC 2,al   ;imprimindo a media
+   ret
